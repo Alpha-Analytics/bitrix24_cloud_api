@@ -11,9 +11,17 @@ module Bitrix24CloudApi
     end
 
     class Activity < Bitrix24CloudApi::Crm
-      [:company, :contact].each do |action|
+      [:company, :contact, :get, :list].each do |action|
         define_singleton_method(action) do |client, query = {}|
           client.make_post_request(resource_url(client, action), query)
+        end
+      end
+
+      class Type < Bitrix24CloudApi::Crm
+        [:list].each do |action|
+          define_singleton_method(action) do |client, query = {}|
+            client.make_post_request(resource_url(client, action), query)
+          end
         end
       end
     end
